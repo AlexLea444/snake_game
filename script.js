@@ -6,6 +6,8 @@ const gridSize = 20; // Size of each grid cell
 const numRows = canvas.height / gridSize;
 const numCols = canvas.width / gridSize;
 
+let highscore = 0;
+
 class SnakeBody {
   constructor(x, y) {
     this.x = x;
@@ -25,8 +27,8 @@ class SnakeBody {
 
 class Player {
   constructor() {
-    this.body = new SnakeBody(Math.floor(Math.random() * numCols / 2),
-                                 Math.floor(Math.random() * numRows / 2));
+    this.body = new SnakeBody(Math.floor((Math.random() + 1) * numCols / 8) ,
+                                 Math.floor((Math.random() + 1) * numRows / 8));
     this.dx = 1;
     this.dy = 0;
   }
@@ -175,7 +177,8 @@ function draw() {
     drawSquare(segment);
   }
 
-  document.getElementById('score').textContent = `Length: ${trail.length()+1}`;
+  document.getElementById('score').textContent = `Score: ${trail.length()}`;
+  document.getElementById('highscore').textContent = `High Score: ${highscore}`;
 }
 
 function movePlayer() {
@@ -214,6 +217,7 @@ function movePlayer() {
 }
 
 function resetGame() {
+  highscore = Math.max(highscore, trail.length()-1);
   player = new Player();
   apple.move();
   trail = new Trail();
